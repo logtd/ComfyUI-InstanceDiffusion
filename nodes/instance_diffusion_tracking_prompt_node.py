@@ -7,7 +7,7 @@ class InstanceDiffusionTrackingPromptNode:
   def INPUT_TYPES(s):
     return {"required": {"conditioning": ("CONDITIONING", ),
                          "clip": ("CLIP", ),
-                         #  "tracking": ("TRACKING", ),
+                         "tracking": ("TRACKING", ),
                          "positionnet": ("POSITIONNET", ),
                          "fusers": ("FUSERS", ),
                          "fusers_batch_size": ("INT", {"default": 5, "min": 0, "max": 10000, "step": 8}),
@@ -18,7 +18,7 @@ class InstanceDiffusionTrackingPromptNode:
 
   CATEGORY = "instance/conditioning"
 
-  def append(self, conditioning, clip, fusers, positionnet, fusers_batch_size, text):
+  def append(self, conditioning, clip, tracking, fusers, positionnet, fusers_batch_size, text):
     # Get prompts and their class id and trakcer id
     prompt_pairs = extract_prompts(text)
 
