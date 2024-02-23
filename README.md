@@ -29,6 +29,7 @@ TODO
 
 ## Accompanying Node Repos
 * [Tracking Nodes for videos](https://github.com/logtd/ComfyUI-TrackingNodes)
+* [AnimateDiff-Evolved](https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved)
 
 ## Examples
 Example workflows can be found in the `example_workflows/` directory.
