@@ -19,7 +19,7 @@ Clone or download this repo into your `ComfyUI/custom_nodes/` directory.
 Then run `pip install -r requirments.txt` within the cloned repo (although if you have already set up ComfyUI you should have all these requirements already).
 
 ### How to Configure Models
-Download each of these checkpoints and place them into the Installation Directory within `ComfyUI/custom_nodes/ComfyUI-InstanceDiffusion/` directory created.
+Download each of these checkpoints and place them into the Installation Directory within `ComfyUI/models/instance_models/` directory.
 
 | Model Name | URL | Installation Directory |
 |------------|-----|------------------------|

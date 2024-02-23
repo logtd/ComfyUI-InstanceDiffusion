@@ -7,9 +7,8 @@ from .. import constants
 
 
 def get_model_dir(model_dir):
-    root_path = folder_paths.folder_names_and_paths['custom_nodes'][0][0]
-    path = os.path.join(root_path, 'ComfyUI-InstanceDiffusion', constants.INSTANCE_MODELS_DIR,
-                        model_dir)
+    root_path = folder_paths.models_dir
+    path = os.path.join(root_path, constants.INSTANCE_MODELS_DIR, model_dir)
     return path
 
 
