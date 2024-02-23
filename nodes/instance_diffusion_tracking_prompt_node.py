@@ -5,20 +5,23 @@ from ..conditioning.instance_conditioning import InstanceConditioning
 class InstanceDiffusionTrackingPromptNode:
   @classmethod
   def INPUT_TYPES(s):
-    return {"required": {"conditioning": ("CONDITIONING", ),
+    return {"required": {"positive": ("CONDITIONING", ),
+                         "negative": ("CONDITIONING", ),
                          "clip": ("CLIP", ),
                          "tracking": ("TRACKING", ),
                          "positionnet": ("POSITIONNET", ),
                          "fusers": ("FUSERS", ),
                          "fusers_batch_size": ("INT", {"default": 5, "min": 0, "max": 10000, "step": 8}),
-                         "text": ("STRING", {"multiline": True}),
+                         "positive_text": ("STRING", {"multiline": True}),
+                         "negative_text": ("STRING", {"multiline": True}),
                          }}
-  RETURN_TYPES = ("CONDITIONING",)
+  RETURN_TYPES = ("CONDITIONING", "CONDITIONING")
+  RETURN_NAMES = ("positive", "negative")
   FUNCTION = "append"
 
   CATEGORY = "instance/conditioning"
 
-  def append(self, conditioning, clip, tracking, fusers, positionnet, fusers_batch_size, text):
+  def _get_position_conds(self, clip, tracking, text):
     # Get prompts and their class id and trakcer id
     prompt_pairs = extract_prompts(text)
 
@@ -38,6 +41,9 @@ class InstanceDiffusionTrackingPromptNode:
                            'positions': tracking[class_id][tracker_id]}
           position_conds.append(position_cond)
 
+    return position_conds
+
+  def _apply_position_conds(self, position_conds, conditioning, fusers, positionnet, fusers_batch_size):
     # Add prompts+embeddings to the input conditionings
     cond_out = []
     for t in conditioning:
@@ -58,4 +64,18 @@ class InstanceDiffusionTrackingPromptNode:
 
       cond_out.append(n)
 
-    return (cond_out,)
+    return cond_out
+
+  def append(self, positive, negative, clip, tracking, fusers, positionnet, fusers_batch_size, positive_text, negative_text):
+
+    positive_positions = self._get_position_conds(
+      clip, tracking, positive_text)
+    positive = self._apply_position_conds(
+      positive_positions, positive, fusers, positionnet, fusers_batch_size)
+
+    negative_positions = self._get_position_conds(
+      clip, tracking, negative_text)
+    negative = self._apply_position_conds(
+      negative_positions, negative, fusers, positionnet, fusers_batch_size)
+
+    return (positive, negative)
