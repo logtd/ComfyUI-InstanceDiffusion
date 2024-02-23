@@ -32,7 +32,8 @@ TODO
 
 ## Examples
 Example workflows can be found in the `example_workflows/` directory.
-[![fourpeople](assets/fourpeople.png)](assets/fourpeople.mp4)
+
+https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/ee42891a-cc38-421c-98bf-03a1be11d315
 
 ## Acknowledgements
 * [frank-xwang](https://github.com/frank-xwang) for creating the original repo, training models, etc.
