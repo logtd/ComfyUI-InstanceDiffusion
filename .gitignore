@@ -1,3 +1,4 @@
 .git
 .vscode
 **/__pycache__
+**/*.ckpt

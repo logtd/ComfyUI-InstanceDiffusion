@@ -7,7 +7,7 @@ class InstanceDiffusionTrackingPromptNode:
   def INPUT_TYPES(s):
     return {"required": {"conditioning": ("CONDITIONING", ),
                          "clip": ("CLIP", ),
-                         "tracking": ("TRACKING", ),
+                         #  "tracking": ("TRACKING", ),
                          "positionnet": ("POSITIONNET", ),
                          "fusers": ("FUSERS", ),
                          "fusers_batch_size": ("INT", {"default": 5, "min": 0, "max": 10000, "step": 8}),
@@ -18,25 +18,32 @@ class InstanceDiffusionTrackingPromptNode:
 
   CATEGORY = "instance/conditioning"
 
-  def append(self, conditioning, clip, tracking, fusers, positionnet, fusers_batch_size, text):
+  def append(self, conditioning, clip, fusers, positionnet, fusers_batch_size, text):
     # Get prompts and their class id and trakcer id
     prompt_pairs = extract_prompts(text)
 
     # Go through prompt pairs, encode prompts, and join with positions from tracking
-    position_conds = []
-    for tracker_id, class_id, prompt in prompt_pairs:
-      _, cond_pooled = clip.encode_from_tokens(
+    # position_conds = []
+    # for tracker_id, class_id, prompt in prompt_pairs:
+    #   _, cond_pooled = clip.encode_from_tokens(
+    #     clip.tokenize(prompt), return_pooled=True)
+    #   # A tracker_id of -1 means that it is prompting all instances of a single class
+    #   if tracker_id != -1:
+    #     position_cond = {'cond_pooled': cond_pooled, 'positions':
+    #                      tracking[class_id][tracker_id]}
+    #     position_conds.append(position_cond)
+    #   else:
+    #     for tracker_id in tracking[class_id]:
+    #       position_cond = {'cond_pooled': cond_pooled,
+    #                        'positions': tracking[class_id][tracker_id]}
+    #       position_conds.append(position_cond)
+
+    prompt = "chicken"
+    _, cond_pooled = clip.encode_from_tokens(
         clip.tokenize(prompt), return_pooled=True)
-      # A tracker_id of -1 means that it is prompting all instances of a single class
-      if tracker_id != -1:
-        position_cond = {'cond_pooled': cond_pooled, 'positions':
-                         tracking[class_id][tracker_id]}
-        position_conds.append(position_cond)
-      else:
-        for tracker_id in tracking[class_id]:
-          position_cond = {'cond_pooled': cond_pooled,
-                           'positions': tracking[class_id][tracker_id]}
-          position_conds.append(position_cond)
+
+    position_conds = [{'cond_pooled': cond_pooled,
+                       'positions': [[100, 100, 200, 200, 512, 512]]}]
 
     # Add prompts+embeddings to the input conditionings
     cond_out = []

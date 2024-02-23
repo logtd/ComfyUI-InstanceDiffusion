@@ -167,7 +167,7 @@ def prepare_embeddings(conds, latent_shape, idxs, use_masked_att=False):
     batch_size, latent_width, latent_height)
   if use_masked_att:
     embeddings['att_masks'] = torch.zeros(
-        idx, N_MAX_OBJECTS, latent_width, latent_height)
+        batch_size, N_MAX_OBJECTS, latent_width, latent_height)
 
   for idx in idxs:
     for cond_idx, cond in enumerate(conds):

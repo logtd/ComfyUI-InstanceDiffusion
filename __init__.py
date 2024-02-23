@@ -1,17 +1,22 @@
+from .nodes.apply_scaleu_model_node import ApplyScaleUModelNode
+from .nodes.load_instance_scaleu_node import LoadInstanceScaleUNode
+from .nodes.load_instance_fusers_node import LoadInstanceFusersNode
+from .nodes.load_instance_positionnet_node import LoadInstancePositionNetNode
 from .nodes.instance_diffusion_tracking_prompt_node import InstanceDiffusionTrackingPromptNode
 
+
 NODE_CLASS_MAPPINGS = {
-    "LoadInstanceDiffusion": None,
-    "LoadInstancePositionNetModel": None,
-    "LoadInstanceScaleUModel": None,
-    "LoadInstanceAttentionModel": None,
+    "ApplyScaleUModelNode": ApplyScaleUModelNode,
+    "LoadInstanceScaleUNode": LoadInstanceScaleUNode,
+    "LoadInstancePositionNetModel": LoadInstancePositionNetNode,
+    "LoadInstanceFusersNode": LoadInstanceFusersNode,
     "InstanceDiffusionTrackingPrompt": InstanceDiffusionTrackingPromptNode,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LoadInstanceDiffusion": "Load Instance Diffusion",
+    "ApplyScaleUModelNode": "Apply Instance Diffusion ScaleU",
     "LoadInstancePositionNetModel": "Load Instance PositionNet Model",
     "LoadInstanceScaleUModel": "Load Instance ScaleU Model",
-    "LoadInstanceAttentionModel": "Load Instance Attention Model",
+    "LoadInstanceFusersNode": "Load Instance Fusers Model",
     "InstanceDiffusionTrackingPrompt": "Instance Diffusion Tracking Prompt"
 }
