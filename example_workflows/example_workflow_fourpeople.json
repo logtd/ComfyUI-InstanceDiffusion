@@ -1,6 +1,6 @@
 {
-  "last_node_id": 90,
-  "last_link_id": 273,
+  "last_node_id": 91,
+  "last_link_id": 276,
   "nodes": [
     {
       "id": 64,
@@ -50,7 +50,7 @@
         "1": 26
       },
       "flags": {},
-      "order": 24,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -212,7 +212,7 @@
         "1": 106
       },
       "flags": {},
-      "order": 23,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -253,7 +253,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 25,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -749,12 +749,12 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            11,
             19,
             48,
             64,
             107,
-            125
+            125,
+            274
           ],
           "shape": 3,
           "slot_index": 0
@@ -771,54 +771,6 @@
       ]
     },
     {
-      "id": 11,
-      "type": "TrackerNode",
-      "pos": [
-        2662,
-        -433
-      ],
-      "size": {
-        "0": 210,
-        "1": 78
-      },
-      "flags": {},
-      "order": 21,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 11
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            259
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "TRACKING",
-          "type": "TRACKING",
-          "links": [
-            266
-          ],
-          "shape": 3,
-          "slot_index": 1
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "TrackerNode"
-      },
-      "widgets_values": [
-        "yolov8m.pt"
-      ]
-    },
-    {
       "id": 16,
       "type": "VAEEncode",
       "pos": [
@@ -830,7 +782,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 22,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -871,7 +823,7 @@
         "1": 266
       },
       "flags": {},
-      "order": 29,
+      "order": 28,
       "mode": 0,
       "inputs": [
         {
@@ -1041,7 +993,7 @@
         "1": 150
       },
       "flags": {},
-      "order": 26,
+      "order": 25,
       "mode": 0,
       "inputs": [
         {
@@ -1087,7 +1039,7 @@
         "1": 266
       },
       "flags": {},
-      "order": 32,
+      "order": 31,
       "mode": 0,
       "inputs": [
         {
@@ -1429,7 +1381,7 @@
         628
       ],
       "size": {
-        "0": 210,
+        "0": 260.3999938964844,
         "1": 46
       },
       "flags": {},
@@ -1536,123 +1488,6 @@
       }
     },
     {
-      "id": 86,
-      "type": "InstanceDiffusionTrackingPrompt",
-      "pos": [
-        2534,
-        -184
-      ],
-      "size": [
-        410.1877602821537,
-        414.2434230835969
-      ],
-      "flags": {},
-      "order": 34,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 263
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 264
-        },
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 265
-        },
-        {
-          "name": "tracking",
-          "type": "TRACKING",
-          "link": 266
-        },
-        {
-          "name": "positionnet",
-          "type": "POSITIONNET",
-          "link": 267
-        },
-        {
-          "name": "fusers",
-          "type": "FUSERS",
-          "link": 268
-        }
-      ],
-      "outputs": [
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "links": [
-            269
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "links": [
-            270
-          ],
-          "shape": 3,
-          "slot_index": 1
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "InstanceDiffusionTrackingPrompt"
-      },
-      "widgets_values": [
-        5,
-        "\"1.person\": \"(((The Mad Hatter, purple suit, purple top hot, red hair)))\",\n\"2.person\": \"(((a white rabbit wearing a suit, white bunny ears)))\",\n\"3.person\": \"((((Alice in Wonderland, blue dress, white apron, blonde))))\",\n\"4.person\": \"((((the Queen of Hearts, red and black dress, crown))))\",",
-        ""
-      ]
-    },
-    {
-      "id": 79,
-      "type": "ImageScale",
-      "pos": [
-        2175,
-        790
-      ],
-      "size": {
-        "0": 210,
-        "1": 130
-      },
-      "flags": {},
-      "order": 28,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 259
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            260
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageScale"
-      },
-      "widgets_values": [
-        "nearest-exact",
-        1024,
-        1024,
-        "disabled"
-      ]
-    },
-    {
       "id": 78,
       "type": "VHS_VideoCombine",
       "pos": [
@@ -1664,7 +1499,7 @@
         599
       ],
       "flags": {},
-      "order": 31,
+      "order": 32,
       "mode": 0,
       "inputs": [
         {
@@ -1708,7 +1543,7 @@
           "hidden": false,
           "paused": false,
           "params": {
-            "filename": "AnimateDiff_00800.mp4",
+            "filename": "AnimateDiff_00802.mp4",
             "subfolder": "",
             "type": "output",
             "format": "video/h264-mp4"
@@ -1918,6 +1753,171 @@
           }
         }
       }
+    },
+    {
+      "id": 86,
+      "type": "InstanceDiffusionTrackingPrompt",
+      "pos": [
+        2496,
+        -195
+      ],
+      "size": {
+        "0": 410.1877746582031,
+        "1": 414.243408203125
+      },
+      "flags": {},
+      "order": 34,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 263
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 264
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 265
+        },
+        {
+          "name": "tracking",
+          "type": "TRACKING",
+          "link": 275
+        },
+        {
+          "name": "positionnet",
+          "type": "POSITIONNET",
+          "link": 267
+        },
+        {
+          "name": "fusers",
+          "type": "FUSERS",
+          "link": 268
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            269
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            270
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InstanceDiffusionTrackingPrompt"
+      },
+      "widgets_values": [
+        5,
+        "\"1.person\": \"(((The Mad Hatter, purple suit, purple top hot, red hair)))\",\n\"2.person\": \"(((a white rabbit wearing a suit, white bunny ears)))\",\n\"3.person\": \"((((Alice in Wonderland, blue dress, white apron, blonde))))\",\n\"4.person\": \"((((the Queen of Hearts, red and black dress, crown))))\",",
+        ""
+      ]
+    },
+    {
+      "id": 91,
+      "type": "YOLOTrackerNode",
+      "pos": [
+        2505,
+        -626
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 274
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            276
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "TRACKING",
+          "type": "TRACKING",
+          "links": [
+            275
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "YOLOTrackerNode"
+      },
+      "widgets_values": [
+        "yolov8m.pt"
+      ]
+    },
+    {
+      "id": 79,
+      "type": "ImageScale",
+      "pos": [
+        2293,
+        784
+      ],
+      "size": {
+        "0": 210,
+        "1": 130
+      },
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 276
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            260
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "nearest-exact",
+        1024,
+        1024,
+        "disabled"
+      ]
     }
   ],
   "links": [
@@ -1926,14 +1926,6 @@
       10,
       0,
       12,
-      0,
-      "IMAGE"
-    ],
-    [
-      11,
-      12,
-      0,
-      11,
       0,
       "IMAGE"
     ],
@@ -2218,14 +2210,6 @@
       "VAE"
     ],
     [
-      259,
-      11,
-      0,
-      79,
-      0,
-      "IMAGE"
-    ],
-    [
       260,
       79,
       0,
@@ -2256,14 +2240,6 @@
       86,
       2,
       "CLIP"
-    ],
-    [
-      266,
-      11,
-      1,
-      86,
-      3,
-      "TRACKING"
     ],
     [
       267,
@@ -2320,6 +2296,30 @@
       81,
       0,
       "MODEL"
+    ],
+    [
+      274,
+      12,
+      0,
+      91,
+      0,
+      "IMAGE"
+    ],
+    [
+      275,
+      91,
+      1,
+      86,
+      3,
+      "TRACKING"
+    ],
+    [
+      276,
+      91,
+      0,
+      79,
+      0,
+      "IMAGE"
     ]
   ],
   "groups": [],
