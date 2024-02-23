@@ -7,7 +7,10 @@ Original research repo: https://github.com/frank-xwang/InstanceDiffusion
 - [Installation](#installation)
   - [How to Install](#how-to-install)
   - [How to Configure Models](#how-to-configure-models)
+- [Nodes](#nodes)
+- [Accompanying Node Repos](#accompanying-node-repos)
 - [Examples](#examples)
+- [Acknowledgements](#acknowledgements)
 
 ## Installation
 
