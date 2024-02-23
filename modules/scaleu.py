@@ -19,7 +19,8 @@ def Fourier_filter(x_in, threshold, scale):
     mask = torch.ones((B, C, H, W), device=x.device)
 
     crow, ccol = H // 2, W // 2
-    mask[..., crow - threshold : crow + threshold, ccol - threshold : ccol + threshold] = scale
+    mask[..., crow - threshold: crow + threshold,
+         ccol - threshold: ccol + threshold] = scale
     x_freq = x_freq * mask
 
     # IFFT
@@ -37,21 +38,24 @@ class ScaleU(nn.Module):
         self.enable_se_scaleu = enable_se_scaleu
 
     def forward(self, h, hs_, transformer_options={}):
-      h = h.to(torch.float32)
-      hs_ = hs_.to(torch.float32)
-      b = torch.tanh(self.scaleu_b) + 1
-      s = torch.tanh(self.scaleu_s) + 1
-      if self.enable_se_scaleu:
-          hidden_mean = h.mean(1).unsqueeze(1) # B,1,H,W 
-          B = hidden_mean.shape[0]
-          hidden_max, _ = torch.max(hidden_mean.view(B, -1), dim=-1, keepdim=True) # B,1
-          hidden_min, _ = torch.min(hidden_mean.view(B, -1), dim=-1, keepdim=True) # B,1
-          # duplicate the hidden_mean dimension 1 to C
-          hidden_mean = (hidden_mean - hidden_min.unsqueeze(2).unsqueeze(3)) / (hidden_max - hidden_min).unsqueeze(2).unsqueeze(3) # B,1,H,W
-          b = torch.einsum('c,bchw->bchw', b-1, hidden_mean) + 1.0 # B,C,H,W
-          h = torch.einsum('bchw,bchw->bchw', h, b)
-      else:      
-          h = torch.einsum('bchw,c->bchw', h, b)
-      
-      hs_ = Fourier_filter(hs_, threshold=1, scale=s)
-      return h.to(torch.float16), hs_.to(torch.float16)
+        h = h.to(torch.float32)
+        hs_ = hs_.to(torch.float32)
+        b = torch.tanh(self.scaleu_b) + 1
+        s = torch.tanh(self.scaleu_s) + 1
+        if self.enable_se_scaleu:
+            hidden_mean = h.mean(1).unsqueeze(1)  # B,1,H,W
+            B = hidden_mean.shape[0]
+            hidden_max, _ = torch.max(hidden_mean.view(
+                B, -1), dim=-1, keepdim=True)  # B,1
+            hidden_min, _ = torch.min(hidden_mean.view(
+                B, -1), dim=-1, keepdim=True)  # B,1
+            # duplicate the hidden_mean dimension 1 to C
+            hidden_mean = (hidden_mean - hidden_min.unsqueeze(2).unsqueeze(3)) / \
+                (hidden_max - hidden_min).unsqueeze(2).unsqueeze(3)  # B,1,H,W
+            b = torch.einsum('c,bchw->bchw', b-1, hidden_mean) + 1.0  # B,C,H,W
+            h = torch.einsum('bchw,bchw->bchw', h, b)
+        else:
+            h = torch.einsum('bchw,c->bchw', h, b)
+
+        hs_ = Fourier_filter(hs_, threshold=1, scale=s)
+        return h.to(torch.float16), hs_.to(torch.float16)
