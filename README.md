@@ -40,6 +40,10 @@ Example workflows can be found in the `example_workflows/` directory.
 
 https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/ee42891a-cc38-421c-98bf-03a1be11d315
 
+https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/40038526-5850-4cb6-9658-c38c7e4b20f9
+
+https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/eae3520c-9a3d-4cde-b32f-1af9231ad2d4
+
 ## Acknowledgements
 * [frank-xwang](https://github.com/frank-xwang) for creating the original repo, training models, etc.
 * [Kosinkadink](https://github.com/Kosinkadink) for creating AnimateDiff-Evolved and providing support on integration
