@@ -163,6 +163,8 @@ def get_attn_mask(img_size=64):
 
 def prepare_embeddings(conds, latent_shape, idxs, use_masked_att=False):
     batch_size, _, latent_height, latent_width = latent_shape
+    if idxs is None:
+        idxs = list(range(batch_size))
     embeddings = create_zero_input_tensors(
         batch_size, latent_width, latent_height)
     if use_masked_att:

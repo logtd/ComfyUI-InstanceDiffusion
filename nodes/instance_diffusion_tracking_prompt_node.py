@@ -11,7 +11,7 @@ class InstanceDiffusionTrackingPromptNode:
                              "tracking": ("TRACKING", ),
                              "positionnet": ("POSITIONNET", ),
                              "fusers": ("FUSERS", ),
-                             "fusers_batch_size": ("INT", {"default": 5, "min": 0, "max": 10000, "step": 8}),
+                             "fusers_batch_size": ("INT", {"default": 8, "min": 1, "max": 10000, "step": 1}),
                              "positive_text": ("STRING", {"multiline": True}),
                              "negative_text": ("STRING", {"multiline": True}),
                              }}
