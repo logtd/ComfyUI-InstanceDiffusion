@@ -19,6 +19,7 @@ Clone or download this repo into your `ComfyUI/custom_nodes/` directory.
 Then run `pip install -r requirments.txt` within the cloned repo (although if you have already set up ComfyUI you should have all these requirements already).
 
 ### How to Configure Models
+These models were trained by [frank-xwang](https://github.com/frank-xwang) baked inside of StableDiffusion 1.5. These are spliced out into individual models to be used with other SD1.5 checkpoints.
 Download each of these checkpoints and place them into the Installation Directory within `ComfyUI/models/instance_models/` directory.
 
 | Model Name | URL | Installation Directory |
