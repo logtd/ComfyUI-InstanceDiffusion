@@ -44,6 +44,8 @@ https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/40038526-585
 
 https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/eae3520c-9a3d-4cde-b32f-1af9231ad2d4
 
+https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/85b7d9df-7f7e-43c7-b2fa-b14fd5ec5e6d
+
 ## Acknowledgements
 * [frank-xwang](https://github.com/frank-xwang) for creating the original repo, training models, etc.
 * [Kosinkadink](https://github.com/Kosinkadink) for creating AnimateDiff-Evolved and providing support on integration
