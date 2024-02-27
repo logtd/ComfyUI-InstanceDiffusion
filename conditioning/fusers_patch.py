@@ -48,34 +48,27 @@ class FusersPatch(torch.nn.Module):
         objs, drop_box_mask = self.positionnet(embeddings)
         return {'objs': objs, 'drop_box_mask': drop_box_mask}
 
-    def _get_idxs(self, extra_options):
-        idxs = None
+    def _get_idxs(self, x, extra_options):
         if extra_options is not None:
             if 'ad_params' in extra_options:
-                idxs = extra_options['ad_params']['sub_idxs']
+                return extra_options['ad_params']['sub_idxs']
             elif 'sub_idxs' in extra_options:
-                idxs = extra_options['sub_idxs']
-        
-        return idxs
+                return extra_options['sub_idxs']
+
+        return list(range(x.shape[0]))
 
     @torch.no_grad()
     def forward(self, x, extra_options):
-        print('--------', x.shape)
         block, idx = extra_options['block']
         fuser_idx = block_map[block][idx]
         fuser = self.fusers_list[fuser_idx]
         attn_total = []
-        idxs = self._get_idxs(extra_options)
-        print('idxs', idxs)
+        idxs = self._get_idxs(x, extra_options)
         for i in range(0, len(x), self.fusers_batch_size):
             batch_idxs = idxs[i:i+self.fusers_batch_size]
             x_idxs = list(range(i, i+self.fusers_batch_size))
-            # print('batch_idxs', batch_idxs, x_idxs)
-            # print('x[x_idxs].shape', x[x_idxs].shape)
-            # print('doing attn')
             attn = fuser(x[x_idxs], self._get_position_objs(batch_idxs))
-            # print('attn.shape', attn.shape)
             attn_total.append(attn)
         attn_total = torch.cat(attn_total)
-        print(attn_total.shape)
+        # print(attn_total.shape)
         return attn_total.to(torch.float16)
