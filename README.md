@@ -7,7 +7,6 @@ Original research repo: https://github.com/frank-xwang/InstanceDiffusion
 - [Installation](#installation)
   - [How to Install](#how-to-install)
   - [How to Configure Models](#how-to-configure-models)
-- [Nodes](#nodes)
 - [Accompanying Node Repos](#accompanying-node-repos)
 - [Examples](#examples)
 - [Acknowledgements](#acknowledgements)
@@ -28,8 +27,6 @@ Download each of these checkpoints and place them into the Installation Director
 | positionnet.ckpt     | [huggingface](https://huggingface.co/spaces/logtd/instancediffusion/blob/main/position_net.ckpt) | `instance_models/positionnet_models/`      |
 | scaleu.ckpt     | [huggingface](https://huggingface.co/spaces/logtd/instancediffusion/blob/main/scaleu.ckpt) | `instance_models/scaleu_models/`      |
 
-## Nodes
-TODO
 
 ## Accompanying Node Repos
 * [Tracking Nodes for videos](https://github.com/logtd/ComfyUI-TrackingNodes)
