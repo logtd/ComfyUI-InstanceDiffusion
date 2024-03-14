@@ -15,7 +15,7 @@ Original research repo: https://github.com/frank-xwang/InstanceDiffusion
 
 ### How to Install
 Clone or download this repo into your `ComfyUI/custom_nodes/` directory.
-Then run `pip install -r requirments.txt` within the cloned repo (although if you have already set up ComfyUI you should have all these requirements already).
+There are no Python package requirements outside of the standard ComfyUI requirements at this time.
 
 ### How to Configure Models
 These models were trained by [frank-xwang](https://github.com/frank-xwang) baked inside of StableDiffusion 1.5. These are spliced out into individual models to be used with other SD1.5 checkpoints.
