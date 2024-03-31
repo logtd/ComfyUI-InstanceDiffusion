@@ -4,6 +4,8 @@ from torch import nn
 from inspect import isfunction
 import torch.nn.functional as F
 
+from comfy.gligen import GatedSelfAttentionDense as GSAD
+
 
 def exists(val):
     return val is not None
@@ -46,7 +48,7 @@ class FeedForward(nn.Module):
         return self.net(x)
 
 
-class SelfAttention(nn.Module):
+class SelfAttentionFusers(nn.Module):
     def __init__(self, query_dim, heads=8, dim_head=64, dropout=0.):
         super().__init__()
         inner_dim = dim_head * heads
@@ -61,6 +63,7 @@ class SelfAttention(nn.Module):
             nn.Linear(inner_dim, query_dim), nn.Dropout(dropout))
 
     def forward(self, x, instance_options={}):
+        # TODO: use attention masking
         grounding_input = instance_options.get('grounding_input', None)
         drop_box_mask = instance_options.get('drop_box_mask', None)
         q = self.to_q(x)  # B*N*(H*C)
@@ -86,9 +89,9 @@ class SelfAttention(nn.Module):
             n_objs = grounding_input["att_masks"].shape[1]
 
             att_masks_reshape = None
-            if N - n_objs * 4 == 64 * 64:
-                att_masks_reshape = grounding_input["att_masks"]
-                att_key = "att_masks_selfAtt64"
+            # if N - n_objs * 4 == 64 * 64:
+            #     att_masks_reshape = grounding_input["att_masks"]
+            #     att_key = "att_masks_selfAtt64"
 
             # if the mask is all zeros or box&mask are dropped, we do not need to mask the self-attention
             if att_masks_reshape is not None and torch.sum(att_masks_reshape) > 0.0 and not drop_box_mask:
@@ -174,36 +177,8 @@ class SelfAttention(nn.Module):
         return self.to_out(out)
 
 
-class GatedSelfAttentionDense(nn.Module):
-    def __init__(self, query_dim, context_dim, n_heads, d_head):
-        super().__init__()
-        # we need a linear projection since we need cat visual feature and obj feature
-        self.linear = nn.Linear(context_dim, query_dim)
-
-        self.attn = SelfAttention(
-            query_dim=query_dim, heads=n_heads, dim_head=d_head)
-        self.ff = FeedForward(query_dim, glu=True)
-
-        self.norm1 = nn.LayerNorm(query_dim)
-        self.norm2 = nn.LayerNorm(query_dim)
-
-        self.register_parameter('alpha_attn', nn.Parameter(torch.tensor(0.)))
-        self.register_parameter('alpha_dense', nn.Parameter(torch.tensor(0.)))
-
-        # this can be useful: we can externally change magnitude of tanh(alpha)
-        # for example, when it is set to 0, then the entire model is same as original one
-        self.scale = 1
-
+class GatedSelfAttentionDense(GSAD):
     def forward(self, x, instance_options={}):
         objs = instance_options['objs']
-
-        N_visual = x.shape[1]
-        objs = self.linear(objs)
-        attention_output = self.attn(self.norm1(
-            torch.cat([x, objs], dim=1)), instance_options=instance_options)
-        x = x + self.scale * \
-            torch.tanh(self.alpha_attn) * attention_output[:, 0:N_visual, :]
-        x = x + self.scale * \
-            torch.tanh(self.alpha_dense) * self.ff(self.norm2(x))
-
+        x = super().forward(x, objs)
         return x.to(torch.float16)

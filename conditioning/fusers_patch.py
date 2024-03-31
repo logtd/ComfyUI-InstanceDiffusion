@@ -30,11 +30,10 @@ block_map = {
 
 
 class FusersPatch(torch.nn.Module):
-    def __init__(self, conds, fusers_list, fusers_batch_size, positionnet, latent_shape, idxs, device):
+    def __init__(self, conds, fusers_list, positionnet, latent_shape, idxs, device):
         super(FusersPatch, self).__init__()
         self.conds = conds
         self.fusers_list = fusers_list
-        self.fusers_batch_size = fusers_batch_size
         self.positionnet = positionnet
         self.latent_shape = latent_shape
         self.idxs = idxs
@@ -64,11 +63,6 @@ class FusersPatch(torch.nn.Module):
         fuser = self.fusers_list[fuser_idx]
         attn_total = []
         idxs = self._get_idxs(x, extra_options)
-        for i in range(0, len(x), self.fusers_batch_size):
-            batch_idxs = idxs[i:i+self.fusers_batch_size]
-            x_idxs = list(range(i, i+self.fusers_batch_size))
-            attn = fuser(x[x_idxs], self._get_position_objs(batch_idxs))
-            attn_total.append(attn)
-        attn_total = torch.cat(attn_total)
-        # print(attn_total.shape)
+
+        attn_total = fuser(x, self._get_position_objs(idxs))
         return attn_total.to(torch.float16)
