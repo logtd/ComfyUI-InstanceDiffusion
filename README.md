@@ -44,6 +44,15 @@ https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/eae3520c-9a3
 
 https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/85b7d9df-7f7e-43c7-b2fa-b14fd5ec5e6d
 
+## Unsupported Features
+InstanceDiffusion supports a wide range of inputs. The inputs that do not have nodes that can convert their input into InstanceDiffusion:
+* Scribbles
+* Points
+* Segments
+* Masks
+
+Points, segments, and masks are planned todo after proper tracking for these input types is implemented in ComfyUI.
+
 ## Acknowledgements
 * [frank-xwang](https://github.com/frank-xwang) for creating the original repo, training models, etc.
 * [Kosinkadink](https://github.com/Kosinkadink) for creating AnimateDiff-Evolved and providing support on integration
