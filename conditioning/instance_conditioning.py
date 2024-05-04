@@ -45,7 +45,13 @@ class InstanceConditioning:
     def is_clone(self, other, *args, **kwargs):
         return other == self
 
+    def clone(self):
+        return self
+
     def model_size(self, *args, **kwargs):
+        return 0
+
+    def memory_required(self, *args, **kwargs):
         return 0
 
     def model_patches_to(self, device_or_dtype, *args, **kwargs):
@@ -60,8 +66,17 @@ class InstanceConditioning:
     def model_dtype(self, *args, **kwargs):
         return torch.float32
 
-    def patch_model(self, device_to, *args, **kwargs):
+    def patch_model(self, *args, **kwargs):
         return
 
     def unpatch_weights(self, *args, **kwargs):
+        return
+
+    def unpatch_model(self, *args, **kwargs):
+        return
+
+    def set_model_patch(self, *args, **kwargs):
+        return
+
+    def set_model_patch_replace(self, *args, **kwargs):
         return
