@@ -26,7 +26,8 @@ class UniFusion(nn.Module):
         self.use_seperate_tokenizer = use_seperate_tokenizer
 
         # Use instance masks as additional model inputs for mask conditioned image generation
-        self.use_segs = True if self.add_masks else False
+        #self.use_segs = True if self.add_masks else False
+        self.use_segs = False
 
         if self.use_segs:
             in_dim = 30
