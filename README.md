@@ -29,6 +29,7 @@ Download each of these checkpoints and place them into the Installation Director
 
 
 ## Accompanying Node Repos
+* [KJNodes for BBoxes](https://github.com/kijai/ComfyUI-KJNodes)
 * [Tracking Nodes for videos](https://github.com/logtd/ComfyUI-TrackingNodes)
 * [AnimateDiff-Evolved](https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved)
 * [Video Helper Suite](https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite)
@@ -56,3 +57,4 @@ Points, segments, and masks are planned todo after proper tracking for these inp
 ## Acknowledgements
 * [frank-xwang](https://github.com/frank-xwang) for creating the original repo, training models, etc.
 * [Kosinkadink](https://github.com/Kosinkadink) for creating AnimateDiff-Evolved and providing support on integration
+* [Kijai](https://github.com/kijai) for improving the speed and adding tracking nodes
