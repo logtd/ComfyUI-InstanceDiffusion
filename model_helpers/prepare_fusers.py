@@ -1,7 +1,13 @@
 import torch
 
-from ..modules.attention import GatedSelfAttentionDense
+#from ..modules.attention import GatedSelfAttentionDense
+from comfy.gligen import GatedSelfAttentionDense as GSAD
 
+class GatedSelfAttentionDense(GSAD):
+    def forward(self, x, instance_options={}):
+        objs = instance_options['objs']
+        x = super().forward(x, objs)
+        return x.to(torch.float16)
 
 def prepare_fusers(fusers_ckpt) -> list[torch.nn.Module]:
     fusers_list = []
