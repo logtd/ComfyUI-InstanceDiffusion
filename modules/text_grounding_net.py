@@ -3,12 +3,14 @@ import torch.nn as nn
 from .util import FourierEmbedder
 from .convnext import convnext_tiny
 
+import comfy.ops
+ops = comfy.ops.manual_cast
 
 class UniFusion(nn.Module):
     def __init__(self, in_dim, out_dim, mid_dim=3072, fourier_freqs=8,
                  train_add_boxes=True, train_add_points=True, train_add_scribbles=True, train_add_masks=True,
                  test_drop_boxes=False, test_drop_points=False, test_drop_scribbles=True, test_drop_masks=False,
-                 use_seperate_tokenizer=True):
+                 use_seperate_tokenizer=True, use_segs=True):
         super().__init__()
         self.in_dim = in_dim
         self.out_dim = out_dim
@@ -26,14 +28,15 @@ class UniFusion(nn.Module):
         self.use_seperate_tokenizer = use_seperate_tokenizer
 
         # Use instance masks as additional model inputs for mask conditioned image generation
-        self.use_segs = True if self.add_masks else False
+        #self.use_segs = True if self.add_masks else False
+        self.use_segs = use_segs
 
         if self.use_segs:
             in_dim = 30
             self.resize_input = 512
             self.down_factor = 64  # determined by the convnext backbone
             # from num_sem to 3 channels
-            self.in_conv = nn.Conv2d(in_dim, 3, 3, 1, 1)
+            self.in_conv = ops.Conv2d(in_dim, 3, 3, 1, 1)
             self.convnext_tiny_backbone = convnext_tiny(pretrained=True)
             self.num_tokens = (self.resize_input // self.down_factor) ** 2
             self.convnext_feature_dim = 3072
@@ -79,19 +82,19 @@ class UniFusion(nn.Module):
             for idx, input_dim_ in enumerate(input_dim_list):
                 mid_dim = self.mid_dim
                 self.linears_list.append(nn.Sequential(
-                    nn.Linear(input_dim_, mid_dim),
+                    ops.Linear(input_dim_, mid_dim),
                     nn.SiLU(),
-                    nn.Linear(mid_dim, mid_dim),
+                    ops.Linear(mid_dim, mid_dim),
                     nn.SiLU(),
-                    nn.Linear(mid_dim, out_dim),
+                    ops.Linear(mid_dim, out_dim),
                 ))
         else:
             self.linears = nn.Sequential(
-                nn.Linear(input_dim, self.mid_dim),
+                ops.Linear(input_dim, self.mid_dim),
                 nn.SiLU(),
-                nn.Linear(self.mid_dim, self.mid_dim),
+                ops.Linear(self.mid_dim, self.mid_dim),
                 nn.SiLU(),
-                nn.Linear(self.mid_dim, out_dim),
+                ops.Linear(self.mid_dim, out_dim),
             )
 
         self.null_positive_feature = torch.nn.Parameter(

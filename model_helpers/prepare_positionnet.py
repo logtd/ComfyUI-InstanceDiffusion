@@ -22,5 +22,5 @@ def get_positionnet_default_params():
 
 def prepare_positionnet(checkpoint, params) -> torch.nn.Module:
     model = UniFusion(**params)
-    model.load_state_dict(checkpoint)
+    model.load_state_dict(checkpoint, strict=False)
     return model

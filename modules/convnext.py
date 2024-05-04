@@ -12,6 +12,8 @@ import torch.nn.functional as F
 from timm.models.layers import trunc_normal_, DropPath
 from timm.models.registry import register_model
 
+import comfy.ops
+ops = comfy.ops.manual_cast
 
 class Block(nn.Module):
     r""" ConvNeXt Block. There are two equivalent implementations:
@@ -27,13 +29,13 @@ class Block(nn.Module):
 
     def __init__(self, dim, drop_path=0., layer_scale_init_value=1e-6):
         super().__init__()
-        self.dwconv = nn.Conv2d(dim, dim, kernel_size=7,
+        self.dwconv = ops.Conv2d(dim, dim, kernel_size=7,
                                 padding=3, groups=dim)  # depthwise conv
         self.norm = LayerNorm(dim, eps=1e-6)
         # pointwise/1x1 convs, implemented with linear layers
-        self.pwconv1 = nn.Linear(dim, 4 * dim)
+        self.pwconv1 = ops.Linear(dim, 4 * dim)
         self.act = nn.GELU()
-        self.pwconv2 = nn.Linear(4 * dim, dim)
+        self.pwconv2 = ops.Linear(4 * dim, dim)
         self.gamma = nn.Parameter(layer_scale_init_value * torch.ones((dim)),
                                   requires_grad=True) if layer_scale_init_value > 0 else None
         self.drop_path = DropPath(
@@ -79,14 +81,14 @@ class ConvNeXt(nn.Module):
         # stem and 3 intermediate downsampling conv layers
         self.downsample_layers = nn.ModuleList()
         stem = nn.Sequential(
-            nn.Conv2d(in_chans, dims[0], kernel_size=4, stride=4),
+            ops.Conv2d(in_chans, dims[0], kernel_size=4, stride=4),
             LayerNorm(dims[0], eps=1e-6, data_format="channels_first")
         )
         self.downsample_layers.append(stem)
         for i in range(3):
             downsample_layer = nn.Sequential(
                 LayerNorm(dims[i], eps=1e-6, data_format="channels_first"),
-                nn.Conv2d(dims[i], dims[i + 1], kernel_size=2, stride=2),
+                ops.Conv2d(dims[i], dims[i + 1], kernel_size=2, stride=2),
             )
             self.downsample_layers.append(downsample_layer)
 
@@ -104,7 +106,7 @@ class ConvNeXt(nn.Module):
             cur += depths[i]
 
     def _init_weights(self, m):
-        if isinstance(m, (nn.Conv2d, nn.Linear)):
+        if isinstance(m, (ops.Conv2d, ops.Linear)):
             trunc_normal_(m.weight, std=.02)
             nn.init.constant_(m.bias, 0)
 
@@ -173,49 +175,49 @@ def convnext_tiny(pretrained=False, in_22k=False, **kwargs):
     return model
 
 
-@register_model
-def convnext_small(pretrained=False, in_22k=False, **kwargs):
-    model = ConvNeXt(depths=[3, 3, 27, 3], dims=[96, 192, 384, 768], **kwargs)
-    if pretrained:
-        url = model_urls['convnext_small_22k'] if in_22k else model_urls['convnext_small_1k']
-        checkpoint = torch.hub.load_state_dict_from_url(
-            url=url, map_location="cpu")
-        model.load_state_dict(checkpoint["model"])
-    return model
+# @register_model
+# def convnext_small(pretrained=False, in_22k=False, **kwargs):
+#     model = ConvNeXt(depths=[3, 3, 27, 3], dims=[96, 192, 384, 768], **kwargs)
+#     if pretrained:
+#         url = model_urls['convnext_small_22k'] if in_22k else model_urls['convnext_small_1k']
+#         checkpoint = torch.hub.load_state_dict_from_url(
+#             url=url, map_location="cpu")
+#         model.load_state_dict(checkpoint["model"])
+#     return model
 
 
-@register_model
-def convnext_base(pretrained=False, in_22k=False, **kwargs):
-    model = ConvNeXt(depths=[3, 3, 27, 3], dims=[
-                     128, 256, 512, 1024], **kwargs)
-    if pretrained:
-        url = model_urls['convnext_base_22k'] if in_22k else model_urls['convnext_base_1k']
-        checkpoint = torch.hub.load_state_dict_from_url(
-            url=url, map_location="cpu")
-        model.load_state_dict(checkpoint["model"])
-    return model
+# @register_model
+# def convnext_base(pretrained=False, in_22k=False, **kwargs):
+#     model = ConvNeXt(depths=[3, 3, 27, 3], dims=[
+#                      128, 256, 512, 1024], **kwargs)
+#     if pretrained:
+#         url = model_urls['convnext_base_22k'] if in_22k else model_urls['convnext_base_1k']
+#         checkpoint = torch.hub.load_state_dict_from_url(
+#             url=url, map_location="cpu")
+#         model.load_state_dict(checkpoint["model"])
+#     return model
 
 
-@register_model
-def convnext_large(pretrained=False, in_22k=False, **kwargs):
-    model = ConvNeXt(depths=[3, 3, 27, 3], dims=[
-                     192, 384, 768, 1536], **kwargs)
-    if pretrained:
-        url = model_urls['convnext_large_22k'] if in_22k else model_urls['convnext_large_1k']
-        checkpoint = torch.hub.load_state_dict_from_url(
-            url=url, map_location="cpu")
-        model.load_state_dict(checkpoint["model"])
-    return model
+# @register_model
+# def convnext_large(pretrained=False, in_22k=False, **kwargs):
+#     model = ConvNeXt(depths=[3, 3, 27, 3], dims=[
+#                      192, 384, 768, 1536], **kwargs)
+#     if pretrained:
+#         url = model_urls['convnext_large_22k'] if in_22k else model_urls['convnext_large_1k']
+#         checkpoint = torch.hub.load_state_dict_from_url(
+#             url=url, map_location="cpu")
+#         model.load_state_dict(checkpoint["model"])
+#     return model
 
 
-@register_model
-def convnext_xlarge(pretrained=False, in_22k=False, **kwargs):
-    model = ConvNeXt(depths=[3, 3, 27, 3], dims=[
-                     256, 512, 1024, 2048], **kwargs)
-    if pretrained:
-        assert in_22k, "only ImageNet-22K pre-trained ConvNeXt-XL is available; please set in_22k=True"
-        url = model_urls['convnext_xlarge_22k']
-        checkpoint = torch.hub.load_state_dict_from_url(
-            url=url, map_location="cpu")
-        model.load_state_dict(checkpoint["model"])
-    return model
+# @register_model
+# def convnext_xlarge(pretrained=False, in_22k=False, **kwargs):
+#     model = ConvNeXt(depths=[3, 3, 27, 3], dims=[
+#                      256, 512, 1024, 2048], **kwargs)
+#     if pretrained:
+#         assert in_22k, "only ImageNet-22K pre-trained ConvNeXt-XL is available; please set in_22k=True"
+#         url = model_urls['convnext_xlarge_22k']
+#         checkpoint = torch.hub.load_state_dict_from_url(
+#             url=url, map_location="cpu")
+#         model.load_state_dict(checkpoint["model"])
+#     return model
