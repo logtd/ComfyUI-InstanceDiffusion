@@ -35,6 +35,12 @@ Download each of these checkpoints and place them into the Installation Director
 * [Video Helper Suite](https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite)
 
 ## Examples
+
+### Text2Vid example using [Kijai](https://github.com/kijai)'s Spline Editor
+![spline_editor_instances](https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/8830e2e7-b0c3-4f4f-95b7-12ee21997fb1)
+
+
+### Vid2Vid examples
 Example workflows can be found in the `example_workflows/` directory.
 
 https://github.com/logtd/ComfyUI-InstanceDiffusion/assets/160989552/ee42891a-cc38-421c-98bf-03a1be11d315
