@@ -16,6 +16,7 @@ class DownloadInstanceDiffusionModels:
     def INPUT_TYPES(s):
         return {"required": {
             "use_segs": ("BOOLEAN", {"default": True}),
+            "fusers_scale": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 10.0, "step": 0.01}),
         }}
 
     RETURN_TYPES = ("POSITIONNET", "FUSERS", "SCALEU", )
@@ -23,7 +24,7 @@ class DownloadInstanceDiffusionModels:
 
     CATEGORY = "instance/loaders"
 
-    def load_model(self, use_segs: bool):
+    def load_model(self, use_segs: bool, fusers_scale: float):
         repo_id = "logtd/instance_diffusion"
         instance_models_folder = os.path.join(folder_paths.models_dir, constants.INSTANCE_MODELS_DIR)
 
@@ -59,7 +60,7 @@ class DownloadInstanceDiffusionModels:
         }
 
         fusers_checkpoint = comfy.utils.load_torch_file(fusers_file, safe_load=True)
-        fusers_list = prepare_fusers(fusers_checkpoint)
+        fusers_list = prepare_fusers(fusers_checkpoint, fusers_scale)
         fusers = {
             'model_list': fusers_list
         }
