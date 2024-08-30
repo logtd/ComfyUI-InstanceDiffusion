@@ -21,6 +21,12 @@ class InstanceConditioning:
         self.load_device = comfy.model_management.get_torch_device()
         self.offload_device = comfy.model_management.intermediate_device()
 
+    def loaded_size(self):
+        return 0
+
+    def current_loaded_device(self):
+        return comfy.model_management.intermediate_device()
+
     def get_fusers_patch(self, latent_shape, idxs, device):
         return FusersPatch(self.conds, self.fusers_list, self.positionnet, latent_shape, idxs, device)
 
