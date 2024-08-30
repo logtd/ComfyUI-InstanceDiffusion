@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-instancediffusion"
+description = "A set of nodes to perform multi-object prompting with InstanceDiffusion"
+version = "1.0.0"
+license = "LICENSE"
+dependencies = ["huggingface_hub"]
+
+[project.urls]
+Repository = "https://github.com/logtd/ComfyUI-InstanceDiffusion"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "logtd"
+DisplayName = "ComfyUI-InstanceDiffusion"
+Icon = ""
