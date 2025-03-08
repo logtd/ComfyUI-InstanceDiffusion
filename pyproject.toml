@@ -2,7 +2,7 @@
 name = "comfyui-instancediffusion"
 description = "A set of nodes to perform multi-object prompting with InstanceDiffusion"
 version = "1.0.0"
-license = "LICENSE"
+license = { file = "LICENSE" }
 dependencies = ["huggingface_hub"]
 
 [project.urls]
